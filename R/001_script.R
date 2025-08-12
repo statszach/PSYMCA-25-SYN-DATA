@@ -63,3 +63,62 @@ cog_merged %>%
   gtsummary::tbl_summary(by = group,
                          statistic = list(all_continuous() ~ "{mean} ({sd})")) %>% 
   gtsummary::add_p(test = list(all_continuous() ~ "t.test")) 
+
+# No differences emerged -- but the absence of evidence is not evidence of absence.
+
+#### Develop factor model of cognition in the observed data
+
+singledomainmodel_obs <- mplusObject(
+  MODEL = "
+  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+  gcp@1;
+  
+  recall BY vdwdimmz* (1);
+  recall BY vdwddelz* (1);
+  recall@1;
+  
+  gcp with recall@0;
+  
+
+  ",
+  usevariables = colnames(cog_obs),
+  VARIABLE = "CATEGORICAL = vdlfl2 vdlfl3
+  vdsevens vdcount;",
+  OUTPUT = "TECH4 STDYX MODINDICES(ALL);",
+  ANALYSIS = "ESTIMATOR = WLSMV;
+  PARAMETERIZATION = THETA;",
+  rdata = cog_obs)
+
+gcp_obs <- mplusModeler(singledomainmodel_obs, 
+                    modelout = "gcpobs.inp", run = TRUE)
+
+#### Run factor model in synthetic data
+
+synmplus <- cog_syn %>% dplyr::select(-group)
+
+singledomainmodel_syn <- mplusObject(
+  MODEL = "
+  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+  gcp@1;
+  
+  recall BY vdwdimmz* (1);
+  recall BY vdwddelz* (1);
+  recall@1;
+  
+  gcp with recall@0;
+  
+
+  ",
+  usevariables = colnames(synmplus),
+  VARIABLE = "CATEGORICAL = vdlfl2 vdlfl3
+  vdsevens vdcount;",
+  OUTPUT = "TECH4 STDYX MODINDICES(ALL);",
+  ANALYSIS = "ESTIMATOR = WLSMV;
+  PARAMETERIZATION = THETA;",
+  rdata = synmplus)
+
+gcp_syn <- mplusModeler(singledomainmodel_syn, 
+                        modelout = "gcpsyn.inp", run = TRUE)
+
+#### Move to invariance models
+
