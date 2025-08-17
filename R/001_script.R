@@ -173,76 +173,204 @@ configural_model <- mplusObject(
   recall@1;
   
   gcp with recall@0;
+
+    MODEL OBSERVED:
+
+    gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    gcp@1;
+
+    recall BY vdwdimmz* (2);
+    recall BY vdwddelz* (2);
+    recall@1;
+
+    gcp with recall@0;
+
+    [ vdori$1*] ;
+    [ vdori$2*] ;
+    [ vdori$3*] ;
+    [ vdori$4*] ;
+    [ vdlfl2$1*] ;
+    [ vdlfl2$2*] ;
+    [ vdlfl3$1*] ;
+    [ vdlfl3$2*] ;
+    [ vdsevens$1*] ;
+    [ vdsevens$2*] ;
+    [ vdsevens$3*] ;
+    [ vdsevens$4*] ;
+    [ vdsevens$5*] ;
+    [ vdcount$1*] ;
+
+    [ vdlfl1z*] ;
+    [ vdwdimmz*] ;
+    [ vdwddelz* ] ;
+    [ vdexf7z* ] ;
+
+    MODEL SYNTHETIC:
+
+    gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    gcp@1;
+
+    recall BY vdwdimmz* (3);
+    recall BY vdwddelz* (3);
+    recall@1;
+
+    gcp with recall@0;
+
+    [ vdori$1*] ;
+    [ vdori$2*] ;
+    [ vdori$3*] ;
+    [ vdori$4*] ;
+    [ vdlfl2$1*] ;
+    [ vdlfl2$2*] ;
+    [ vdlfl3$1*] ;
+    [ vdlfl3$2*] ;
+    [ vdsevens$1*] ;
+    [ vdsevens$2*] ;
+    [ vdsevens$3*] ;
+    [ vdsevens$4*] ;
+    [ vdsevens$5*] ;
+    [ vdcount$1*] ;
+
+    [ vdlfl1z*] ;
+    [ vdwdimmz*] ;
+    [ vdwddelz* ] ;
+    [ vdexf7z* ] ;
+
+    [gcp@0];
+    [recall@0];
+    vdori@1;
+    vdlfl2@1;
+    vdlfl3@1;
+    vdsevens@1;
+    vdcount@1;
+  
+
+  ",
+  usevariables = colnames(cog_merged),
+  VARIABLE = "CATEGORICAL = vdori vdlfl2 vdlfl3
+  vdsevens vdcount;
+  GROUP = group (1 = Observed 2 = Synthetic);",
+  OUTPUT = "TECH4 STDYX SVALUES;",
+  ANALYSIS = "ESTIMATOR = WLSMV;
+  PARAMETERIZATION = THETA;",
+  rdata = cog_merged,
+  SAVEDATA = "H5RESULTS = results;
+              DIFFTEST = configural.dat;")
+
+configural <- mplusModeler(configural_model, 
+                        modelout = "configural.inp", run = TRUE)
+
+fullyconstrained_model <- mplusObject(
+  MODEL = "
+  
+  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+  gcp@1;
+  
+  recall BY vdwdimmz* (1);
+  recall BY vdwddelz* (1);
+  recall@1;
+  
+  gcp with recall@0;
   
   MODEL OBSERVED:
   
-  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
-  gcp@1;
-  
-  recall BY vdwdimmz* (2);
-  recall BY vdwddelz* (2);
-  recall@1;
-  
-  gcp with recall@0;
+  gcp BY vdori*0.64973 (2);
+  gcp BY vdlfl1z*0.04753 (3);
+  gcp BY vdlfl2*1.05251 (4);
+  gcp BY vdlfl3*0.84640 (5);
+  gcp BY vdwdimmz*0.10688 (6);
+  gcp BY vdwddelz*0.12884 (7);
+  gcp BY vdexf7z*0.11547 (8);
+  gcp BY vdsevens*0.90846 (9);
+  gcp BY vdcount*0.72949 (10);
+  recall BY vdwdimmz*0.11833 (33);
+  recall BY vdwddelz*0.11833 (33);
 
-  [ vdori$1*] ;
-  [ vdori$2*] ;
-  [ vdori$3*] ;
-  [ vdori$4*] ;
-  [ vdlfl2$1*] ;
-  [ vdlfl2$2*] ;
-  [ vdlfl3$1*] ;
-  [ vdlfl3$2*] ;
-  [ vdsevens$1*] ;
-  [ vdsevens$2*] ;
-  [ vdsevens$3*] ;
-  [ vdsevens$4*] ;
-  [ vdsevens$5*] ;
-  [ vdcount$1*] ;
-  
-  [ vdlfl1z*] ;
-  [ vdwdimmz*] ;
-  [ vdwddelz* ] ;
-  [ vdexf7z* ] ;
+  gcp WITH recall@0;
+
+  [ vdlfl1z*0.16760 ] (11);
+  [ vdwdimmz*0.49698 ] (12);
+  [ vdwddelz*0.39135 ] (13);
+  [ vdexf7z*0.60927 ] (14);
+  [ gcp@0 ];
+  [ recall@0 ];
+
+  [ vdori$1*-2.63384 ] (15);
+  [ vdori$2*-2.25207 ] (16);
+  [ vdori$3*-1.81333 ] (17);
+  [ vdori$4*-0.77681 ] (18);
+  [ vdlfl2$1*-3.55421 ] (19);
+  [ vdlfl2$2*-1.93039 ] (20);
+  [ vdlfl3$1*-2.39380 ] (21);
+  [ vdlfl3$2*-0.50783 ] (22);
+  [ vdsevens$1*-1.65874 ] (23);
+  [ vdsevens$2*-1.03448 ] (24);
+  [ vdsevens$3*-0.67764 ] (25);
+  [ vdsevens$4*-0.22317 ] (26);
+  [ vdsevens$5*0.40499 ] (27);
+  [ vdcount$1*-1.72961 ] (28);
+
+  vdori@1;
+  vdlfl1z*0.00360 (29);
+  vdlfl2@1;
+  vdlfl3@1;
+  vdwdimmz*0.00471 (30);
+  vdwddelz*0.01249 (31);
+  vdexf7z*0.02277 (32);
+  vdsevens@1 ;
+  vdcount@1;
+  gcp@1;
+  recall@1;
   
   MODEL SYNTHETIC:
   
-  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
-  gcp@1;
-  
-  recall BY vdwdimmz* (3);
-  recall BY vdwddelz* (3);
-  recall@1;
-  
-  gcp with recall@0;
-  
-  [ vdori$1*] ;
-  [ vdori$2*] ;
-  [ vdori$3*] ;
-  [ vdori$4*] ;
-  [ vdlfl2$1*] ;
-  [ vdlfl2$2*] ;
-  [ vdlfl3$1*] ;
-  [ vdlfl3$2*] ;
-  [ vdsevens$1*] ;
-  [ vdsevens$2*] ;
-  [ vdsevens$3*] ;
-  [ vdsevens$4*] ;
-  [ vdsevens$5*] ;
-  [ vdcount$1*] ;
-  
-  [ vdlfl1z*] ;
-  [ vdwdimmz*] ;
-  [ vdwddelz* ] ;
-  [ vdexf7z* ] ;
-  
-  [gcp@0];
-  [recall@0];
+  gcp BY vdori*0.64973 (2);
+  gcp BY vdlfl1z*0.04753 (3);
+  gcp BY vdlfl2*1.05251 (4);
+  gcp BY vdlfl3*0.84640 (5);
+  gcp BY vdwdimmz*0.10688 (6);
+  gcp BY vdwddelz*0.12884 (7);
+  gcp BY vdexf7z*0.11547 (8);
+  gcp BY vdsevens*0.90846 (9);
+  gcp BY vdcount*0.72949 (10);
+  recall BY vdwdimmz*0.11833 (33);
+  recall BY vdwddelz*0.11833 (33);
+
+  gcp WITH recall@0;
+
+  [ vdlfl1z*0.16760 ] (11);
+  [ vdwdimmz*0.49698 ] (12);
+  [ vdwddelz*0.39135 ] (13);
+  [ vdexf7z*0.60927 ] (14);
+  [ gcp@0 ];
+  [ recall@0 ];
+
+  [ vdori$1*-2.63384 ] (15);
+  [ vdori$2*-2.25207 ] (16);
+  [ vdori$3*-1.81333 ] (17);
+  [ vdori$4*-0.77681 ] (18);
+  [ vdlfl2$1*-3.55421 ] (19);
+  [ vdlfl2$2*-1.93039 ] (20);
+  [ vdlfl3$1*-2.39380 ] (21);
+  [ vdlfl3$2*-0.50783 ] (22);
+  [ vdsevens$1*-1.65874 ] (23);
+  [ vdsevens$2*-1.03448 ] (24);
+  [ vdsevens$3*-0.67764 ] (25);
+  [ vdsevens$4*-0.22317 ] (26);
+  [ vdsevens$5*0.40499 ] (27);
+  [ vdcount$1*-1.72961 ] (28);
+
   vdori@1;
+  vdlfl1z*0.00360 (29);
   vdlfl2@1;
   vdlfl3@1;
-  vdsevens@1;
+  vdwdimmz*0.00471 (30);
+  vdwddelz*0.01249 (31);
+  vdexf7z*0.02277 (32);
+  vdsevens@1 ;
   vdcount@1;
+  gcp@1;
+  recall@1;
 
   
 
@@ -257,8 +385,227 @@ configural_model <- mplusObject(
   rdata = cog_merged,
   SAVEDATA = "H5RESULTS = results;")
 
-configural <- mplusModeler(configural_model, 
-                        modelout = "configural.inp", run = TRUE)
+fullyconstrained <- mplusModeler(fullyconstrained_model, 
+                           modelout = "fullyconstrained.inp", run = TRUE)
+
+fullyconstraineddifftest_model <- mplusObject(
+  MODEL = "
+  
+  gcp BY vdori* vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+  gcp@1;
+  
+  recall BY vdwdimmz* (1);
+  recall BY vdwddelz* (1);
+  recall@1;
+  
+  gcp with recall@0;
+  
+  MODEL OBSERVED:
+  
+  gcp BY vdori*0.64973 (2);
+  gcp BY vdlfl1z*0.04753 (3);
+  gcp BY vdlfl2*1.05251 (4);
+  gcp BY vdlfl3*0.84640 (5);
+  gcp BY vdwdimmz*0.10688 (6);
+  gcp BY vdwddelz*0.12884 (7);
+  gcp BY vdexf7z*0.11547 (8);
+  gcp BY vdsevens*0.90846 (9);
+  gcp BY vdcount*0.72949 (10);
+  recall BY vdwdimmz*0.11833 (33);
+  recall BY vdwddelz*0.11833 (33);
+
+  gcp WITH recall@0;
+
+  [ vdlfl1z*0.16760 ] (11);
+  [ vdwdimmz*0.49698 ] (12);
+  [ vdwddelz*0.39135 ] (13);
+  [ vdexf7z*0.60927 ] (14);
+  [ gcp@0 ];
+  [ recall@0 ];
+
+  [ vdori$1*-2.63384 ] (15);
+  [ vdori$2*-2.25207 ] (16);
+  [ vdori$3*-1.81333 ] (17);
+  [ vdori$4*-0.77681 ] (18);
+  [ vdlfl2$1*-3.55421 ] (19);
+  [ vdlfl2$2*-1.93039 ] (20);
+  [ vdlfl3$1*-2.39380 ] (21);
+  [ vdlfl3$2*-0.50783 ] (22);
+  [ vdsevens$1*-1.65874 ] (23);
+  [ vdsevens$2*-1.03448 ] (24);
+  [ vdsevens$3*-0.67764 ] (25);
+  [ vdsevens$4*-0.22317 ] (26);
+  [ vdsevens$5*0.40499 ] (27);
+  [ vdcount$1*-1.72961 ] (28);
+
+  vdori@1;
+  vdlfl1z*0.00360 (29);
+  vdlfl2@1;
+  vdlfl3@1;
+  vdwdimmz*0.00471 (30);
+  vdwddelz*0.01249 (31);
+  vdexf7z*0.02277 (32);
+  vdsevens@1 ;
+  vdcount@1;
+  gcp@1;
+  recall@1;
+  
+  MODEL SYNTHETIC:
+  
+  gcp BY vdori*0.64973 (2);
+  gcp BY vdlfl1z*0.04753 (3);
+  gcp BY vdlfl2*1.05251 (4);
+  gcp BY vdlfl3*0.84640 (5);
+  gcp BY vdwdimmz*0.10688 (6);
+  gcp BY vdwddelz*0.12884 (7);
+  gcp BY vdexf7z*0.11547 (8);
+  gcp BY vdsevens*0.90846 (9);
+  gcp BY vdcount*0.72949 (10);
+  recall BY vdwdimmz*0.11833 (33);
+  recall BY vdwddelz*0.11833 (33);
+
+  gcp WITH recall@0;
+
+  [ vdlfl1z*0.16760 ] (11);
+  [ vdwdimmz*0.49698 ] (12);
+  [ vdwddelz*0.39135 ] (13);
+  [ vdexf7z*0.60927 ] (14);
+  [ gcp@0 ];
+  [ recall@0 ];
+
+  [ vdori$1*-2.63384 ] (15);
+  [ vdori$2*-2.25207 ] (16);
+  [ vdori$3*-1.81333 ] (17);
+  [ vdori$4*-0.77681 ] (18);
+  [ vdlfl2$1*-3.55421 ] (19);
+  [ vdlfl2$2*-1.93039 ] (20);
+  [ vdlfl3$1*-2.39380 ] (21);
+  [ vdlfl3$2*-0.50783 ] (22);
+  [ vdsevens$1*-1.65874 ] (23);
+  [ vdsevens$2*-1.03448 ] (24);
+  [ vdsevens$3*-0.67764 ] (25);
+  [ vdsevens$4*-0.22317 ] (26);
+  [ vdsevens$5*0.40499 ] (27);
+  [ vdcount$1*-1.72961 ] (28);
+
+  vdori@1;
+  vdlfl1z*0.00360 (29);
+  vdlfl2@1;
+  vdlfl3@1;
+  vdwdimmz*0.00471 (30);
+  vdwddelz*0.01249 (31);
+  vdexf7z*0.02277 (32);
+  vdsevens@1 ;
+  vdcount@1;
+  gcp@1;
+  recall@1;
+
+  
+
+  ",
+  usevariables = colnames(cog_merged),
+  VARIABLE = "CATEGORICAL = vdori vdlfl2 vdlfl3
+  vdsevens vdcount;
+  GROUP = group (1 = Observed 2 = Synthetic);",
+  OUTPUT = "TECH4 STDYX SVALUES;",
+  ANALYSIS = "ESTIMATOR = WLSMV;
+  PARAMETERIZATION = THETA;
+  DIFFTEST is configural.dat ; ",
+  rdata = cog_merged,
+  SAVEDATA = "H5RESULTS = results;")
+
+fullyconstraineddifftest <- mplusModeler(fullyconstraineddifftest_model, 
+                                 modelout = "fullyconstraineddifftest.inp", run = TRUE)
+
+#### Test of covariances
+
+covarfree_model <- mplusObject(
+  MODEL = "
+  
+
+    MODEL OBSERVED:
+
+    vdori vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    
+    [ vdori$1*] ;
+    [ vdori$2*] ;
+    [ vdori$3*] ;
+    [ vdori$4*] ;
+    [ vdlfl2$1*] ;
+    [ vdlfl2$2*] ;
+    [ vdlfl3$1*] ;
+    [ vdlfl3$2*] ;
+    [ vdsevens$1*] ;
+    [ vdsevens$2*] ;
+    [ vdsevens$3*] ;
+    [ vdsevens$4*] ;
+    [ vdsevens$5*] ;
+    [ vdcount$1*] ;
+
+    [ vdlfl1z*] ;
+    [ vdwdimmz*] ;
+    [ vdwddelz* ] ;
+    [ vdexf7z* ] ;
+    
+    vdori with vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl1z with vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl2 with vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl3 with vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdwdimmz with vdwddelz vdexf7z vdsevens vdcount;
+    vdwddelz with vdexf7z vdsevens vdcount;
+    vdexf7z with vdsevens vdcount;
+    vdsevens with vdcount;
+    
+    MODEL SYNTHETIC:
+
+    vdori vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    
+    
+    [ vdori$1*] ;
+    [ vdori$2*] ;
+    [ vdori$3*] ;
+    [ vdori$4*] ;
+    [ vdlfl2$1*] ;
+    [ vdlfl2$2*] ;
+    [ vdlfl3$1*] ;
+    [ vdlfl3$2*] ;
+    [ vdsevens$1*] ;
+    [ vdsevens$2*] ;
+    [ vdsevens$3*] ;
+    [ vdsevens$4*] ;
+    [ vdsevens$5*] ;
+    [ vdcount$1*] ;
+
+    [ vdlfl1z*] ;
+    [ vdwdimmz*] ;
+    [ vdwddelz* ] ;
+    [ vdexf7z* ] ;
+    
+    vdori with vdlfl1z vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl1z with vdlfl2 vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl2 with vdlfl3 vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdlfl3 with vdwdimmz vdwddelz vdexf7z vdsevens vdcount;
+    vdwdimmz with vdwddelz vdexf7z vdsevens vdcount;
+    vdwddelz with vdexf7z vdsevens vdcount;
+    vdexf7z with vdsevens vdcount;
+    vdsevens with vdcount;
+
+  
+
+  ",
+  usevariables = colnames(cog_merged),
+  VARIABLE = "CATEGORICAL = vdori vdlfl2 vdlfl3
+  vdsevens vdcount;
+  GROUP = group (1 = Observed 2 = Synthetic);",
+  OUTPUT = "TECH4 STDYX SVALUES;",
+  ANALYSIS = "ESTIMATOR = WLSMV;
+  PARAMETERIZATION = THETA;",
+  rdata = cog_merged,
+  SAVEDATA = "DIFFTEST = freecovar.dat;")
+
+covarfree <- mplusModeler(covarfree_model, 
+                           modelout = "covarfree.inp", run = TRUE)
+
 
 #### Now do Rich's DIF magnitude testing
 
@@ -377,3 +724,68 @@ t3 <- data.frame(
            vdexf7z_d,
            vdsevens_h,
            vdcount_h))
+
+# Let's make a plot
+
+plotdata <- combined_values %>% 
+  dplyr::select(paramHeader, param, obs_est, low2.5, est, up2.5) %>% 
+  dplyr::filter(paramHeader != "GCP.WITH") %>% 
+  dplyr::filter(paramHeader != "Variances") %>% 
+  dplyr::mutate(label = paste(paramHeader, param)) %>% 
+  dplyr::mutate(est = dplyr::case_when(paramHeader == "GCP.BY" ~ atanh(est),
+                                       paramHeader == "RECALL.BY" ~ atanh(est),
+                                       TRUE ~ est),
+                obs_est = dplyr::case_when(paramHeader == "GCP.BY" ~ atanh(obs_est),
+                                       paramHeader == "RECALL.BY" ~ atanh(obs_est),
+                                       TRUE ~ obs_est))
+
+intthresh <- plotdata %>% 
+  dplyr::filter(paramHeader == "Thresholds" | paramHeader == "Intercepts")
+
+loadings <- plotdata %>% 
+  dplyr::filter(paramHeader == "GCP.BY" | paramHeader == "RECALL.BY")
+
+resvar <- plotdata %>% 
+  dplyr::filter(paramHeader == "Residual.Variances")
+
+ggplot(data = plotdata, aes(y = label, x = obs_est)) +
+  theme_minimal() +
+  geom_point(data = plotdata, aes(y = label, x = est), color = "purple", size = 2) +
+  geom_point(color = "black") +
+  xlab("Estimate") +
+  ylab("Parameters")
+
+ggplot(data = plotdata, aes(x = est, y = obs_est)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dotted", color = "grey50") +
+  geom_point() +
+  theme_minimal() +
+  xlab("Synthetic Estimate") +
+  ylab("Observed Estimate") +
+  xlim(-4, 4) +
+  ylim(-4, 4)
+
+ggplot(data = intthresh, aes(y = label, x = obs_est)) +
+  theme_minimal() +
+  geom_pointrange(data = intthresh, aes(y = label,
+                  x = est, xmin = low2.5, xmax = up2.5), color = "purple") +
+  geom_point(color = "black") +
+  xlab("Estimate") +
+  ylab("Parameters")
+
+ggplot(data = loadings, aes(y = label, x = obs_est)) +
+  theme_minimal() +
+  geom_pointrange(data = loadings, aes(y = label,
+                                        x = est, xmin = low2.5, xmax = up2.5), color = "purple") +
+  geom_point(color = "black") +
+  xlab("Estimate") +
+  ylab("Parameters")
+
+
+ggplot(data = resvar, aes(y = label, x = obs_est)) +
+  theme_minimal() +
+  geom_pointrange(data = resvar, aes(y = label,
+                                       x = est, xmin = low2.5, xmax = up2.5), color = "purple") +
+  geom_point(color = "black") +
+  xlab("Estimate") +
+  ylab("Parameters")
+

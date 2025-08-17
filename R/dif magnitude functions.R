@@ -320,3 +320,5 @@ score1 <- sapply(fis, function(f) expectedScore(f, a1, b1))
 score2 <- sapply(fis, function(f) expectedScore(f, a2, b2))
 areaMeasures(score1, score2, mu2, sigmasquared2, fis)
 plotERF(fis, score1, score2)
+
+
