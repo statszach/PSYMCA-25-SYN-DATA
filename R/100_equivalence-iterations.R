@@ -18,16 +18,15 @@ HCAP2016 <- readRDS(fs::path("C:", "Users", "zkunicki",
 
 demo_and_cog <- HCAP2016 %>% 
   dplyr::filter(age65up == 1) %>% 
-  dplyr::select(vdori, vdlfl1z,
+  dplyr::select(rage, female, black, hisp, SCHLYRS,
+                vdori, vdlfl1z,
                 vdlfl2, vdlfl3,
                 vdwdimmz, vdwddelz,
                 vdexf7z, vdsevens,
-                vdcount,
-                rage, female, black, hisp, SCHLYRS)
+                vdcount)
 
-# Set wd
-
-setwd("C:\\Users\\zkunicki\\OneDrive - Brown University\\Documents\\HomeMigration\\Research\\YMCA\\PROJECTS\\2025-Synth-Invariance\\PSYMCA-25-SYN-DATA\\cog_first")
+fs::dir_create("100_demos-first")
+setwd(here::here("100_demos-first"))
 
 # Generate synthetic datasets
 

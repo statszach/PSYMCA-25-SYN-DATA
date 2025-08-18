@@ -27,25 +27,18 @@ demo_and_cog <- HCAP2016 %>%
 
 # Set wd
 
-setwd("C:\\Users\\zkunicki\\OneDrive - Brown University\\Documents\\HomeMigration\\Research\\YMCA\\PROJECTS\\2025-Synth-Invariance\\PSYMCA-25-SYN-DATA\\random")
+fs::dir_create("200_cog-first")
+setwd(here::here("200_cog-first"))
 
 # Generate synthetic datasets
 
-# Generate synthetic datasets with random column order each time
 gen_synth_datasets <- function(n_iter = 1001, data, base_seed = 904, minnumlevels = 5) {
   synth_list <- vector("list", n_iter)
-  vars <- colnames(data)   # grab variable names once
   
   for (i in seq_len(n_iter)) {
-    # shuffle variable order with a fresh seed each loop
-    set.seed(base_seed + i)    # ensures reproducible but different each iteration
-    vars_random <- sample(vars)
-    data_shuffled <- data[, vars_random]
-    
-    # generate synthetic dataset
     synth_list[[i]] <- synthpop::syn(
-      data_shuffled,
-      seed = base_seed + i,
+      data,
+      seed = base_seed + i,    # different seed each time
       minnumlevels = minnumlevels
     )
   }
@@ -60,7 +53,6 @@ synth_datasets <- gen_synth_datasets(
   base_seed = 904,
   minnumlevels = 5
 )
-
 
 ### Observed data
 
